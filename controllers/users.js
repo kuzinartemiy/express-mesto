@@ -68,8 +68,8 @@ module.exports.updateUser = (req, res) => {
       })
       
       .catch(err => {
-        if(err.name === 'CastError') {
-          res.status(400).send({ message: 'Ошибка валидации, данные не найдены.' })
+        if(err.name === 'ValidationError') {
+          res.status(400).send({ message: 'Переданы некорректные данные при обновлении данных пользователя.' })
         } else {
           res.status(500).send({ message: 'Произошла ошибка при обновлении пользователя.' })
         }
@@ -94,7 +94,7 @@ module.exports.updateAvatar = (req, res) => {
       })
       
       .catch(err => {
-        if(err.name === 'CastError') {
+        if(err.name === 'ValidationError') {
           res.status(400).send({ message: 'Переданы некорректные данные при обновлении аватара.' })
         } else {
           res.status(500).send({ message: 'Произошла ошибка при обновлении пользователя.' })
