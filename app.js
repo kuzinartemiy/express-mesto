@@ -26,6 +26,10 @@ app.use((req, res, next) => {
 app.use('/users', require('./routes/users'));
 app.use('/cards', require('./routes/cards'));
 
+app.use(function (req, res, next) {
+  res.status(404).send("404 Error");
+})
+
 app.listen(PORT, () => {
 	console.log(`I'm running on ${PORT}`);
 })
