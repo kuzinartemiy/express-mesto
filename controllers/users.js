@@ -111,7 +111,7 @@ module.exports.updateAvatar = (req, res, next) => {
   User.findByIdAndUpdate(
     { _id: id }, 
     { avatar },
-    { new: true, runValidators: true })
+    { new: true })
 
     .then(user => {
       if (!user) {
