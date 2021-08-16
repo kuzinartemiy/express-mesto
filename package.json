@@ -1,19 +1,21 @@
 {
   "name": "dev",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Backend for Mesto",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "npx eslint",
+    "lint": "npx eslint .",
     "start": "app.js",
     "dev": "nodemon app.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Kuzin Artemiy",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^7.31.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.0",
     "nodemon": "^2.0.12"
   },
   "dependencies": {
