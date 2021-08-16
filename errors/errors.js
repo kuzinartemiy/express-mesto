@@ -1,3 +1,4 @@
+// eslint-disable-next-line max-classes-per-file
 class BadRequestError extends Error {
   constructor(message) {
     super(message);
@@ -47,4 +48,4 @@ module.exports = {
   ForbiddenError,
   ConflictError,
   ServerError,
-}
+};

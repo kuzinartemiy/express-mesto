@@ -1,10 +1,15 @@
 const mongoose = require('mongoose');
-// const validator = require('validator');
+const validator = require('validator');
 
 const userChema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
+    validate: {
+      validator(v) {
+        return validator.isEmail(v);
+      },
+    },
   },
 
   password: {
@@ -32,8 +37,7 @@ const userChema = new mongoose.Schema({
     default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
     validate: {
       validator(v) {
-        // eslint-disable-next-line no-useless-escape
-        return /https?:\/\/(www)?[\-\.~:\/\?#\[\]@!$&'\(\)*\+,;=\w]+#?\b/gi.text(v);
+        return validator.isURL(v, { require_protocol: true });
       },
     },
   },
