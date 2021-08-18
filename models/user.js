@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 
-const userChema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
@@ -43,4 +43,12 @@ const userChema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('user', userChema);
+function toJSON() {
+  const obj = this.toObject();
+  delete obj.password;
+  return obj;
+}
+
+userSchema.methods.toJSON = toJSON;
+
+module.exports = mongoose.model('user', userSchema);

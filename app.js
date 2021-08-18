@@ -1,11 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
+const validator = require('validator');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+
 const { Joi, celebrate } = require('celebrate');
 const { login, createUser } = require('./controllers/users');
-const { NotFoundError } = require('./errors/errors');
+const { NotFoundError, BadRequestError } = require('./errors/errors');
 
 const { PORT = 3000 } = process.env;
 
@@ -37,9 +38,14 @@ app.post('/signup', celebrate({
   body: Joi.object().keys({
     email: Joi.string().email().required(),
     password: Joi.string().required(),
-    name: Joi.string(),
-    about: Joi.string(),
-    avatar: Joi.string(),
+    name: Joi.string().min(2).max(30),
+    about: Joi.string().min(2).max(30),
+    avatar: Joi.string().custom((link) => {
+      if (validator.isURL(link, { require_protocol: true })) {
+        return link;
+      }
+      throw new BadRequestError('Невалидный URL');
+    }),
   }),
 }), createUser);
 
@@ -48,9 +54,10 @@ app.use(() => {
 });
 
 app.use((err, req, res, next) => {
+  console.log(err);
   const status = err.statusCode || 500;
   const { message } = err;
-  res.status(status).send({ err: message || 'Произошла ошибка на сервере.' });
+  res.status(status).send({ message: message || 'Произошла ошибка на сервере.' });
   return next();
 });
 

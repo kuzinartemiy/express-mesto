@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const validator = require('validator');
+// const validator = require('validator');
 const bcrypt = require('bcrypt');
 
 const {
@@ -55,10 +55,6 @@ module.exports.createUser = (req, res, next) => {
     throw new BadRequestError('Email или пароль не могут быть пустыми.');
   }
 
-  if (!validator.isEmail(email)) {
-    throw new BadRequestError('Введите корректный Email.');
-  }
-
   User.findOne({ email })
 
     .then((user) => {
@@ -78,7 +74,6 @@ module.exports.createUser = (req, res, next) => {
                 if (!newUser) {
                   throw new BadRequestError('Переданы некорректные данные при создании пользователя.');
                 }
-
                 res.status(201).send(newUser);
               })
 
@@ -97,7 +92,7 @@ module.exports.updateUser = (req, res, next) => {
   User.findByIdAndUpdate(
     { _id: id },
     { name, about },
-    { new: true, runValidators: true },
+    { new: true },
   )
 
     .then((user) => {
@@ -139,15 +134,11 @@ module.exports.login = (req, res, next) => {
     throw new BadRequestError('Email или пароль не могут быть пустыми.');
   }
 
-  if (!validator.isEmail(email)) {
-    throw new BadRequestError('Введите корректный Email.');
-  }
-
   User.findOne({ email }).select('+password')
 
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Пользователя не существует.');
+        throw new UnauthorizedError('Пользователя не существует.');
       } else {
         bcrypt.compare(password, user.password)
 
