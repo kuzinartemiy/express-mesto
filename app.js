@@ -4,7 +4,7 @@ const validator = require('validator');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
-const { Joi, celebrate } = require('celebrate');
+const { Joi, celebrate, errors } = require('celebrate');
 const { login, createUser } = require('./controllers/users');
 const { NotFoundError, BadRequestError } = require('./errors/errors');
 
@@ -53,8 +53,10 @@ app.use(() => {
   throw new NotFoundError('404 Error');
 });
 
+app.use(errors());
+
 app.use((err, req, res, next) => {
-  console.log(err);
+  // console.log(err);
   const status = err.statusCode || 500;
   const { message } = err;
   res.status(status).send({ message: message || 'Произошла ошибка на сервере.' });
