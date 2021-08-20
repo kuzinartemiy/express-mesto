@@ -11,7 +11,9 @@ function setCors(req, res, next) {
   const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
 
   if (allowedCors.includes(origin)) {
+    console.log(origin);
     res.header('Access-Control-Allow-Origin', '*');
+    console.log(res.header);
   }
 
   if (method === 'OPTIONS') {
