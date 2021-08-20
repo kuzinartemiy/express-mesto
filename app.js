@@ -3,8 +3,10 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-
 const { Joi, celebrate, errors } = require('celebrate');
+
+const { allowedCors } = require('./middlewares/cors');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { login, createUser } = require('./controllers/users');
 const { NotFoundError, BadRequestError } = require('./errors/errors');
 
@@ -24,8 +26,20 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useUnifiedTopology: true,
 });
 
+app.use((req, res, next) => {
+  const { origin } = req.headers;
+
+  if (allowedCors.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+
+  next();
+});
+
 app.use('/users', require('./routes/users'));
 app.use('/cards', require('./routes/cards'));
+
+app.use(requestLogger);
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
@@ -49,6 +63,8 @@ app.post('/signup', celebrate({
   }),
 }), createUser);
 
+app.use(errorLogger);
+
 app.use(() => {
   throw new NotFoundError('404 Error');
 });
@@ -56,7 +72,6 @@ app.use(() => {
 app.use(errors());
 
 app.use((err, req, res, next) => {
-  // console.log(err);
   const status = err.statusCode || 500;
   const { message } = err;
   res.status(status).send({ message: message || 'Произошла ошибка на сервере.' });
