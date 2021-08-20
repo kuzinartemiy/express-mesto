@@ -5,10 +5,10 @@ const {
 } = require('../errors/errors');
 
 module.exports = (req, res, next) => {
-  if (!req.cookies.jwt) {
+  if (!res.cookies.jwt) {
     throw new UnauthorizedError('Необходима авторизация');
   } else {
-    const token = req.cookies.jwt;
+    const token = res.cookies.jwt;
 
     let payload;
 
