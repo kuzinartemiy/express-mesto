@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const { Joi, celebrate, errors } = require('celebrate');
 
-const { allowedCors } = require('./middlewares/cors');
+const { setCors } = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { login, createUser } = require('./controllers/users');
 const { NotFoundError, BadRequestError } = require('./errors/errors');
@@ -13,6 +13,8 @@ const { NotFoundError, BadRequestError } = require('./errors/errors');
 const { PORT = 3000 } = process.env;
 
 const app = express();
+
+app.use(setCors);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -24,25 +26,6 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useCreateIndex: true,
   useFindAndModify: false,
   useUnifiedTopology: true,
-});
-
-app.use((req, res, next) => {
-  const { origin } = req.headers;
-  const { method } = req;
-  const requestHeaders = req.headers['access-control-request-headers'];
-  const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
-
-  if (method === 'OPTIONS') {
-    res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
-    res.header('Access-Control-Allow-Headers', requestHeaders);
-    return res.end();
-  }
-
-  if (allowedCors.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', '*');
-  }
-
-  return next();
 });
 
 app.use('/users', require('./routes/users'));
