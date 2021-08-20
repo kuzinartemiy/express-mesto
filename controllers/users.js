@@ -152,7 +152,7 @@ module.exports.login = (req, res, next) => {
                 httpOnly: true,
                 sameSite: true,
                 maxAge: 3600000 * 24,
-              }).send({ message: 'Cookies accepted' });
+              }).send({ token });
             }
           })
 
