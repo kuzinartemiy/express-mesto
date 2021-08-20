@@ -147,13 +147,12 @@ module.exports.login = (req, res, next) => {
               throw new UnauthorizedError('Неправильный пароль.');
             } else {
               const token = jwt.sign({ _id: user._id }, 'super-duper-secret-key');
-              res
-                .cookie('jwt', token, {
-                  httpOnly: true,
-                  sameSite: true,
-                  maxAge: 3600000 * 24,
-                })
-                .status(200).send({ token });
+
+              res.cookie('jwt', token, {
+                httpOnly: true,
+                sameSite: true,
+                maxAge: 3600000 * 24,
+              }).send({ message: 'Cookies accepted' });
             }
           })
 
