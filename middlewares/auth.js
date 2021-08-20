@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
     throw new UnauthorizedError('Необходима авторизация');
   } else {
     const token = req.cookies.jwt;
-
+    console.log(token);
     let payload;
 
     try {
