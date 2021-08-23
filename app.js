@@ -14,12 +14,15 @@ const { PORT = 3000 } = process.env;
 
 const app = express();
 
-app.use(cors());
+const corsOptions = {
+  origin: 'https://kuzinartemiy.nomoredomains.monster',
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
 
+app.use(cors(corsOptions));
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(cookieParser());
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
