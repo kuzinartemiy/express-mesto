@@ -5,10 +5,11 @@ const {
 } = require('../errors/errors');
 
 module.exports = (req, res, next) => {
-  if (!req.cookies.jwt) {
+  const token = req.cookies.jwt;
+
+  if (!token) {
     throw new UnauthorizedError({ message: req.cookies.jwt });
   }
-  const token = req.cookies.jwt;
 
   let payload;
 
