@@ -2,7 +2,7 @@ const router = require('express').Router();
 const validator = require('validator');
 const { Joi, celebrate } = require('celebrate');
 
-const auth = require('../middlewares/auth');
+// const auth = require('../middlewares/auth');
 
 const {
   BadRequestError,

@@ -4,7 +4,9 @@ const validator = require('validator');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const { Joi, celebrate, errors } = require('celebrate');
+
 // const cors = require('cors');
+const auth = require('./middlewares/auth');
 const { cors } = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { login, createUser } = require('./controllers/users');
@@ -31,9 +33,6 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useUnifiedTopology: true,
 });
 
-app.use('/users', require('./routes/users'));
-app.use('/cards', require('./routes/cards'));
-
 app.use(requestLogger);
 
 app.post('/signin', celebrate({
@@ -57,6 +56,9 @@ app.post('/signup', celebrate({
     }),
   }),
 }), createUser);
+
+app.use('/users', auth, require('./routes/users'));
+app.use('/cards', auth, require('./routes/cards'));
 
 app.use(errorLogger);
 
