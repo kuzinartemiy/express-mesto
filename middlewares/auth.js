@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
   const token = req.cookies.jwt;
 
   if (!token) {
-    throw new UnauthorizedError({ message: req.cookies.jwt });
+    throw new UnauthorizedError('Ошибка авторизации: не найден req.cookies.jwt');
   }
 
   let payload;
