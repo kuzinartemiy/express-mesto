@@ -9,11 +9,9 @@ function setCors(req, res, next) {
   const { method } = req;
   const requestHeaders = req.headers['access-control-request-headers'];
   const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
-  console.log(origin);
+
   if (allowedCors.includes(origin)) {
-    console.log(origin);
     res.header('Access-Control-Allow-Origin', '*');
-    console.log(res.header);
   }
 
   if (method === 'OPTIONS') {

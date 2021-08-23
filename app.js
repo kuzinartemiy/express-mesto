@@ -4,8 +4,8 @@ const validator = require('validator');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const { Joi, celebrate, errors } = require('celebrate');
-
-const { setCors } = require('./middlewares/cors');
+const cors = require('cors');
+// const { setCors } = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { login, createUser } = require('./controllers/users');
 const { NotFoundError, BadRequestError } = require('./errors/errors');
@@ -14,7 +14,7 @@ const { PORT = 3000 } = process.env;
 
 const app = express();
 
-app.use(setCors);
+app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
