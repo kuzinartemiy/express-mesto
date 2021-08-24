@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
-// const validator = require('validator');
+
+const { NODE_ENV, JWT_SECRET } = process.env;
 const bcrypt = require('bcrypt');
 
 const {
@@ -146,7 +147,7 @@ module.exports.login = (req, res, next) => {
             if (!isValid) {
               throw new UnauthorizedError('Неправильный пароль.');
             } else {
-              const token = jwt.sign({ _id: user._id }, 'super-duper-secret-key');
+              const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
 
               res.cookie('jwt', token, {
                 httpOnly: true,
