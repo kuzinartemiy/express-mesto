@@ -6,7 +6,7 @@ const validator = require('validator');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const { Joi, celebrate, errors } = require('celebrate');
-const rateLimit = require('express-rate-limit');
+// const rateLimit = require('express-rate-limit');
 
 const { auth } = require('./middlewares/auth');
 const { errorHandler } = require('./middlewares/errorHandler');
