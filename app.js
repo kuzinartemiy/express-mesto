@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const { Joi, celebrate, errors } = require('celebrate');
 const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
 
 const { auth } = require('./middlewares/auth');
 const { errorHandler } = require('./middlewares/errorHandler');
@@ -30,6 +31,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(limiter);
+app.use(helmet());
 app.use(requestLogger);
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
