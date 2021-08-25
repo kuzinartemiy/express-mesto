@@ -7,18 +7,18 @@ const validator = require('validator');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const { Joi, celebrate, errors } = require('celebrate');
-const rateLimit = require('express-rate-limit');
 
+const { PORT = 3000 } = process.env;
+
+const app = express();
+
+const rateLimit = require('express-rate-limit');
 const { auth } = require('./middlewares/auth');
 const { errorHandler } = require('./middlewares/errorHandler');
 const { cors } = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { login, createUser } = require('./controllers/users');
 const { NotFoundError, BadRequestError } = require('./errors/errors');
-
-const { PORT = 3000 } = process.env;
-
-const app = express();
 
 // const limiter = rateLimit({
 //   windowMs: 15 * 60 * 1000,
