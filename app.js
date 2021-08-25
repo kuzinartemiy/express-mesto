@@ -69,14 +69,14 @@ app.use(() => {
 
 app.use(errorLogger);
 app.use(errors());
-// app.use(errorHandler);
+app.use(errorHandler);
 
-app.use((err, req, res, next) => {
-  const status = err.statusCode || 500;
-  const { message } = err;
-  res.status(status).send({ message: message || 'Произошла ошибка на сервере.' });
-  return next();
-});
+// app.use((err, req, res, next) => {
+//   const status = err.statusCode || 500;
+//   const { message } = err;
+//   res.status(status).send({ message: message || 'Произошла ошибка на сервере.' });
+//   return next();
+// });
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console

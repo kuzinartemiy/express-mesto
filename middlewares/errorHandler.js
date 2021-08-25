@@ -5,6 +5,6 @@ function errorHandler(err, req, res, next) {
   return next();
 }
 
-module.exports({
+module.exports = {
   errorHandler,
-});
+};
