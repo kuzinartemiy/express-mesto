@@ -19,13 +19,13 @@ const { PORT = 3000 } = process.env;
 
 const app = express();
 
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-});
+// const limiter = rateLimit({
+//   windowMs: 15 * 60 * 1000,
+//   max: 100,
+// });
 
 app.use(cors);
-app.use(limiter);
+// app.use(limiter);
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(express.json());
