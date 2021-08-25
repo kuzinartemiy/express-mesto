@@ -6,7 +6,7 @@ const validator = require('validator');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const { Joi, celebrate, errors } = require('celebrate');
-// const rateLimit = require('express-rate-limit');
+const rateLimit = require('express-rate-limit');
 
 const { auth } = require('./middlewares/auth');
 const { errorHandler } = require('./middlewares/errorHandler');
@@ -19,17 +19,18 @@ const { PORT = 3000 } = process.env;
 
 const app = express();
 
-// const limiter = rateLimit({
-//   windowMs: 15 * 60 * 1000,
-//   max: 100,
-// });
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+});
 
 app.use(cors);
-// app.use(limiter);
+
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(limiter);
 app.use(requestLogger);
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
