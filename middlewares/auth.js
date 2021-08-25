@@ -6,7 +6,7 @@ const {
   UnauthorizedError, // 401
 } = require('../errors/errors');
 
-module.exports = (req, res, next) => {
+function auth(req, res, next) {
   const token = req.cookies.jwt;
 
   if (!token) {
@@ -23,4 +23,8 @@ module.exports = (req, res, next) => {
 
   req.user = payload;
   next();
-};
+}
+
+module.exports({
+  auth,
+});
